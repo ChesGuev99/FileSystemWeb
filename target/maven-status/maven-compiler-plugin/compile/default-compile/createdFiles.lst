@@ -1,0 +1,9 @@
+servletPackage\Index.class
+FileSystem\Main.class
+FileSystem\Folder.class
+servletPackage\Login.class
+com\tec\filesystemweb\JakartaRestConfiguration.class
+FileSystem\FileAdministrator.class
+com\tec\filesystemweb\resources\JakartaEE8Resource.class
+FileSystem\JsonAddapter.class
+FileSystem\Archive.class

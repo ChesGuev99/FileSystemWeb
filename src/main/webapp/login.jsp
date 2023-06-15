@@ -51,13 +51,12 @@
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="Username" aria-describedby="emailHelp"
                                        placeholder="User Name">
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" class="form-control" id="password" placeholder="password">
+                                <span id="usernameError" style="display: none; color: red;">El Usuario No Existe</span>
                             </div>
                             <div class="text-center"><button type="button" class="btn btn-color px-5 mb-5 w-100" onclick="login()">Iniciar Sesión</button></div>
-                            <div id="emailHelp" class="form-text text-center mb-5 text-dark">¿No eres usuario?
-                                <a href="#" class="text-dark fw-bold"> Crea una cuenta</a>
+                            <div id="emailHelp" class="form-text text-center mb-5 text-dark">
+                                <p>¿No eres usuario? Escribe tu nombre de usuario y</p>
+                                <p><a href="#" class="text-dark fw-bold" onclick="newAccount()">Crea una cuenta</a></p>
                             </div>
                         </form>
                     </div>
@@ -71,12 +70,50 @@
             function login() {
                 // Perform any necessary validation or processing
 
-                // Get the form element
-                
-                var form = document.getElementById("loginForm");
-                console.log("Si esta llegando al login :v");
-                // Redirect to the desired page
-                window.location.href = "${pageContext.request.contextPath}/Index";
+                var usernameInput = document.getElementById("Username").value.trim();
+                var usernameError = document.getElementById("usernameError");
+
+                if (usernameInput === "") {
+                    usernameError.innerHTML = "Favor ingresar un usuario válido"; // Update the error message
+                    usernameError.style.display = "block";
+                }
+//                if (usernameInput Es un usuario que no existe){
+//                    usernameError.innerHTML = "Este usuario no existe"; // Update the error message
+//                    usernameError.style.display = "block";
+//                }
+                else {
+                    usernameError.style.display = "none";
+                    // Proceed with form submission or other actions
+
+                    console.log("Si esta llegando al login :v");
+                    // Redirect to the desired page
+                    window.location.href = "${pageContext.request.contextPath}/Index?username=" + encodeURIComponent(usernameInput);
+                }
+            }
+
+            function newAccount() {
+                // Perform any necessary validation or processing
+
+                var usernameInput = document.getElementById("Username").value.trim();
+                var usernameError = document.getElementById("usernameError");
+
+                if (usernameInput === "") {
+                    usernameError.innerHTML = "Favor ingresar un usuario válido"; // Update the error message
+                    usernameError.style.display = "block";
+                }
+//                if (usernameInput Es un usuario que ya existe){
+//                    usernameError.innerHTML = "Este usuario no está disponible, por favor selecciona otro"; // Update the error message
+//                    usernameError.style.display = "block";
+//                }
+                else {
+                    usernameError.style.display = "none";
+                    // Proceed with form submission or other actions
+
+                    console.log("Si esta llegando al login :v");
+                    // Redirect to the desired page
+                    window.location.href = "${pageContext.request.contextPath}/Index?username=" + encodeURIComponent(usernameInput);
+                }
+
             }
         </script>
 

@@ -33,17 +33,20 @@
       if (event.keyCode === 13) {
         event.preventDefault();
         //window.location.href = "${pageContext.request.contextPath}/Login";
+        var urlParams = new URLSearchParams(window.location.search);
+        var username = urlParams.get('username');
 
         var inputText = document.getElementById("textInput").value.trim();
         var firstWord = inputText.split(" ")[0];
         var otherWords = inputText.split(" ").slice(1);
 
         var requestData = {
-          comando: firstWord,
-          palabras: otherWords
+          user: username,
+          command: firstWord,
+          parameters: otherWords
         };
 
-        fetch("${pageContext.request.contextPath}/Index", {
+        fetch("${pageContext.request.contextPath}/ProcessCommand", {
             method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -69,7 +72,7 @@
   <textarea id="textArea" readonly>${output}
         ¡Bienvenido! Por favor digite sus datos.
   </textarea>
-  <form id="form" method="post" action="${pageContext.request.contextPath}/processInput">
+  <form id="form" method="post">
     <input type="text" id="textInput" name="input" placeholder="Ingrese sus instrucciones aquí" onkeypress="handleKeyPress(event)">
   </form>
 </body>

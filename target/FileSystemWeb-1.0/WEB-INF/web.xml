@@ -17,8 +17,8 @@
         <servlet-class>servletPackage.Index</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>servletTest</servlet-name>
-        <servlet-class>servletPackage.servletTest</servlet-class>
+        <servlet-name>ProcessCommand</servlet-name>
+        <servlet-class>servletPackage.ProcessCommand</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
@@ -37,8 +37,8 @@
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>servletTest</servlet-name>
-        <url-pattern>/servletTest</url-pattern>
+        <servlet-name>ProcessCommand</servlet-name>
+        <url-pattern>/ProcessCommand</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

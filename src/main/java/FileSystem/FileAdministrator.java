@@ -128,5 +128,24 @@ public class FileAdministrator {
         
         return lista;
     }
+    
+    public boolean deleteFile(Folder folder, String fileName) {
+        boolean deleted = false;
+        if(folder.verNameArchive(fileName)) {
+            Archive archive = folder.getArchive(fileName);
+            deleted = folder.deleteArchive(archive);
+        }
+        return deleted;
+    }
+
+    public boolean deleteFolder(Folder folder, String folderName) {
+        boolean deleted = false;
+        if(folder.verNameFolder(folderName)) {
+            Folder folderToDelete = folder.getFolder(folderName);
+            deleted = folder.deleteFolder(folderToDelete);
+        }
+        return deleted;
+    }   
+    
         
 }

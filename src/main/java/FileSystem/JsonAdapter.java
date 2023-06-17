@@ -7,8 +7,10 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class JsonAddapter {
+public class JsonAdapter {
     private String json = "";
     private ObjectMapper mapper = new ObjectMapper();
     private String relativePath = "src/main/java/FileSystem/folders.json";
@@ -45,11 +47,15 @@ public class JsonAddapter {
         return object;
     }
 
-    public MainFileSystem loadJsonFileSystem() throws IOException {
+    public MainFileSystem loadJsonFileSystem() {
         File file = new File(filePath);
 
         MainFileSystem object = null;
-        object = mapper.readValue(file, MainFileSystem.class);
+        try {
+            object = mapper.readValue(file, MainFileSystem.class);
+        } catch (IOException ex) {
+            object = new MainFileSystem();
+        }
         return object;
     }
 }

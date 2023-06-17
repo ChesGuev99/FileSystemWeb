@@ -46,8 +46,8 @@ public class UsersMain {
         String fileContent = administrator.seeFile(folder, "Archivo");
         System.out.println("File content = "+fileContent);
         
-        JsonAddapter file = new JsonAddapter();            //Clase para guardar y cargar los folders
-        file.saveJsonFileSystem(fs);
+        JsonAdapter file = new JsonAdapter();            //Clase para guardar y cargar los folders
+        //file.saveJsonFileSystem(fs);
         MainFileSystem fs2 = file.loadJsonFileSystem();
         fs2.startFileSystem();
         

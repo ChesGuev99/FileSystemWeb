@@ -44,7 +44,7 @@ public class Main {
         System.out.println("File content = "+fileContent);
 
         
-        JsonAddapter file = new JsonAddapter();            //Clase para guardar y cargar los folders
+        JsonAdapter file = new JsonAdapter();            //Clase para guardar y cargar los folders
         file.saveJsonFolder(folder);                     //Guardar el folder raiz con todos los folders y archivos
         
         

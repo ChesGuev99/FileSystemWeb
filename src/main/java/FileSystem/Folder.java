@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * @author Girome
  */
 public class Folder {
-    private String name;
-    private ArrayList<Folder> foldersIn;   //Arreglo para folders que estan en el folder
-    private ArrayList<Archive> archiveIn; //Arreglo para los archivos que estan en el folder
+    public String name;
+    public ArrayList<Folder> foldersIn;   //Arreglo para folders que estan en el folder
+    public ArrayList<Archive> archiveIn; //Arreglo para los archivos que estan en el folder
     private String directory;             //Guarda la url desde el directorio raiz
     @JsonIgnore
     private Folder father;
@@ -31,7 +31,6 @@ public class Folder {
         this.foldersIn = new ArrayList<>();
         this.locationLogic = locationLogic;
     }
-    
     public Folder(String name, String directory, Folder father, String createDate, String user, String locationLogic) {
         this.name = name;
         this.directory = directory;

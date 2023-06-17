@@ -5,21 +5,35 @@
  */
 package FileSystem;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author DiegoAlvarez
  */
 public class User {
-    String name;
-    Folder mainFolder;
-    Folder currentFolder;
-    int size;
+    public String name;
+    public Folder mainFolder;
+    public Folder currentFolder;
+    public int size;
+    public int usedSize;
     
     public User() {}
     public User(String name, int size){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String currentDate = formatter.format(date);
         this.name = name;
         this.size = size;
-        mainFolder = new Folder();
+        mainFolder = new Folder(name,name+":",currentDate,name,"");
+        currentFolder = mainFolder;
+    }
+    public User(String name, int size, Folder folder){
+        this.name = name;
+        this.size = size;
+        mainFolder = folder;
         currentFolder = mainFolder;
     }
     public void startFileSystem(){
@@ -56,10 +70,37 @@ public class User {
     public int getSize() {
         return size;
     }
-    public User(String name, int size, Folder folder){
-        this.name = name;
-        this.size = size;
-        mainFolder = folder;
-        currentFolder = mainFolder;
+    public Folder getPath(String path, boolean isAbs){
+        String[] folders = path.split("/");
+        Folder auxCurrFolder;
+        if(isAbs)
+            auxCurrFolder = mainFolder;
+        else 
+            auxCurrFolder= currentFolder;
+        boolean found = false;
+        for (String folder : folders) {
+            for (int j = 0; j < auxCurrFolder.foldersIn.size(); j++) {
+                if (auxCurrFolder.foldersIn.get(j).getName().equals(folder)) {
+                    auxCurrFolder = auxCurrFolder.foldersIn.get(j);
+                    found = true;
+                    break;
+                } else {
+                }
+            }
+            if(found)
+                found = false;
+            else
+                return null;
+        }
+        return auxCurrFolder;
+    }
+        
+    public boolean calculateSize(int added, int removed){
+        int auxSize = usedSize + added - removed;
+        if (auxSize<=usedSize){
+            usedSize = auxSize;
+            return true;
+        }
+        return false;
     }
 }

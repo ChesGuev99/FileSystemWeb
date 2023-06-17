@@ -26,7 +26,14 @@ public class MainFileSystem {
         this.users = users;
     }
     
-    MainFileSystem(){
+    public MainFileSystem(){
         users = new ArrayList();
+    }
+    public User getUser(String name){
+        for(int i=0;i<users.size();i++){
+            if(users.get(i).name.equals(name))
+                return users.get(i);
+        }
+        return null;
     }
 }

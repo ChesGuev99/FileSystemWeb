@@ -4,6 +4,7 @@
  */
 package servletPackage;
 
+import FileSystem.FileAdministrator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -58,7 +59,8 @@ public class ProcessCommand extends HttpServlet {
 //            /* TODO output your page here. You may use following sample code. */
 //            
             out.println(requestData.getUser() + " requested command: " + requestData.getCommand() + "with params" + requestData.getParameters().get(0));
-
+            
+            FileAdministrator administrator = new FileAdministrator();
             switch (command) {
                 case "cd":
                     // Handle "cd" command
@@ -75,6 +77,8 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "ls":
                     // Handle "ls" command
+                    
+                    administrator.listarDirectorios(folder);
                     break;
                 case "mkDir":
                     // Handle "mkDir" command

@@ -4,6 +4,9 @@
  */
 package servletPackage;
 
+import FileSystem.JsonAdapter;
+import FileSystem.MainFileSystem;
+import FileSystem.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -29,9 +32,19 @@ public class ProcessCommand extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    MainFileSystem fs = null;
+    JsonAdapter fileManager = null;
+    protected void startServer(){
+        fs = new MainFileSystem();
+        fileManager = new JsonAdapter();
+    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        if (fs == null){
+            startServer();
+            fs = fileManager.loadJsonFileSystem();
+        }
         try (PrintWriter out = response.getWriter()) {
 
             // Read the request body
@@ -53,7 +66,9 @@ public class ProcessCommand extends HttpServlet {
 
             // Access the parsed JSON data
             String username = requestData.getUser();
+            
             String command = requestData.getCommand();
+            User u = fs.getUser(username);
 //            
 //            /* TODO output your page here. You may use following sample code. */
 //            

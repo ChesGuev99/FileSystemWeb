@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 //import com.fasterxml.jackson.databind.util.JSONPObject;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,37 +17,38 @@ import java.util.Date;
  */
 public class FileAdministrator {
     
-    public boolean moveArchive(Archive archive, Folder folToMove, Folder folToDelete, String locationLogic){
-        if(!folToMove.verNameArchive(archive.getName())){
+    public String moveArchive(String nameArchive, Folder folToMove, Folder folToDelete){
+        Archive archive = folToDelete.getArchive(nameArchive);
+        if(archive != null){
             if(folToDelete.deleteArchive(archive)){
                 folToMove.addArchive(archive);
                 archive.setFather(folToMove);
-                archive.setLocationLogic(locationLogic);
-                return true;
+                archive.setLocationLogic(folToMove.getLocationLogic()+archive.getName());
+                return "Se logro mover el archivo";
             }
         }
-        return false;
+        return "No se logro mover el archivo";
     }
     
-    public boolean moveFolder(Folder folder, Folder folToMove, Folder folToDelete, String locationLogic){
+    public String moveFolder(Folder folder, Folder folToMove){
         if(!folToMove.verNameFolder(folder.getName())){
-            if(folToDelete.deleteFolder(folder)){
+            if(folder.getFather().deleteFolder(folder)){
                 folToMove.addFolder(folder);
                 folder.setFather(folToMove);
-                folder.setLocationLogic(locationLogic);
-                return true;
+                folder.setLocationLogic(folToMove.getLocationLogic()+folder.getName()+"/");
+                return "Se logro mover el folder";
             }
         }
-        return false;
+        return "No se logro mover el folder";
     }
     
-    public boolean createFolder(Folder folder, String name, String directory, String createDate, String user, String locationLogic){
+    public String createFolder(Folder folder, String name, String directory, String createDate, String user, String locationLogic){
         if(!folder.verNameFolder(name)){
             Folder createFolder = new Folder(name, directory, folder, createDate, user, locationLogic);
             folder.addFolder(createFolder);
-            return true;
+            return "Se creo correctamente el folder.";
         }
-        return false;
+        return "No se logro crear correctamente el folder";
     }
 
     public boolean createFile(Folder father, String name, String extension, String fileContent) {
@@ -127,6 +129,49 @@ public class FileAdministrator {
         }
         
         return lista;
+    }
+    
+    public boolean deleteFile(Folder folder, String fileName) {
+        boolean deleted = false;
+        if(folder.verNameArchive(fileName)) {
+            Archive archive = folder.getArchive(fileName);
+            deleted = folder.deleteArchive(archive);
+        }
+        return deleted;
+    }
+
+    public boolean deleteFolder(Folder folder, String folderName) {
+        boolean deleted = false;
+        if(folder.verNameFolder(folderName)) {
+            Folder folderToDelete = folder.getFolder(folderName);
+            deleted = folder.deleteFolder(folderToDelete);
+        }
+        return deleted;
+    }   
+    
+    public String copiarVVFolder(Folder folder, Folder folToCopy){
+        if(folToCopy.verNameFolder(folder.getName())){
+            Folder newFolder = new Folder(folder.getName(), folToCopy.getDirectory(), 
+                    folToCopy, getCurrentDate(), folder.getUser(), 
+                    folToCopy.getLocationLogic()+folder.getName()+"/");
+            newFolder.setFoldersIn(folder.getFoldersIn());
+            newFolder.setArchiveIn(folder.getArchiveIn());
+            folToCopy.addFolder(newFolder);
+            return "Se copio correctamente el folder.";
+        }
+        return "No se puede copiar el folder.";
+    }
+    
+    public String copiarVVArchive(Folder folder, String nameArchive, Folder currentFolder){
+        Archive archive = currentFolder.getArchive(nameArchive);
+        if(folder.verNameArchive(archive.getName())){
+            Archive newArchive = new Archive(archive.getName(), archive.getSize(), 
+                    archive.getExtension(), archive.getDateModify(), getCurrentDate(), 
+                    666, 0, archive.getFileContent());
+            folder.addArchive(newArchive);
+            return "Se copio correctamente el archivo.";
+        }
+        return "No se puede copiar el archivo.";
     }
         
 }

@@ -1,0 +1,21 @@
+# NetBeans specific files
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Compiled Java classes
+*.class
+
+# Compiled Java libraries
+*.jar
+
+# IntelliJ IDEA specific files
+.idea/
+
+# Eclipse specific files
+.settings/
+.classpath
+.project

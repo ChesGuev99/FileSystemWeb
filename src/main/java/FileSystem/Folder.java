@@ -4,6 +4,7 @@
  */
 package FileSystem;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 
 /**
@@ -11,10 +12,11 @@ import java.util.ArrayList;
  * @author Girome
  */
 public class Folder {
-    private String name;
-    private ArrayList<Folder> foldersIn;   //Arreglo para folders que estan en el folder
-    private ArrayList<Archive> archiveIn; //Arreglo para los archivos que estan en el folder
+    public String name;
+    public ArrayList<Folder> foldersIn;   //Arreglo para folders que estan en el folder
+    public ArrayList<Archive> archiveIn; //Arreglo para los archivos que estan en el folder
     private String directory;             //Guarda la url desde el directorio raiz
+    @JsonIgnore
     private Folder father;
     private String createDate;            //Fecha de creacion
     private String user;                  //Usuario que lo crea
@@ -29,7 +31,6 @@ public class Folder {
         this.foldersIn = new ArrayList<>();
         this.locationLogic = locationLogic;
     }
-    
     public Folder(String name, String directory, Folder father, String createDate, String user, String locationLogic) {
         this.name = name;
         this.directory = directory;
@@ -155,5 +156,15 @@ public class Folder {
             }
         }
         return false;
+    }
+    public void setChildrenFather(){
+        if (foldersIn != null){
+            for(int i = 0; i < foldersIn.size(); i++){
+                if (foldersIn.get(i).getFather() == null){
+                    foldersIn.get(i).setFather(this);
+                    foldersIn.get(i).setChildrenFather();
+                }
+            }
+        }
     }
 }

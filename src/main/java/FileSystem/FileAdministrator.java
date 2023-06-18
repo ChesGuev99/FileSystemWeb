@@ -149,7 +149,6 @@ public class FileAdministrator {
         }
         return "No se puede copiar el folder.";
     }
-    
     public String copiarVVArchive(Folder folder, String nameArchive, Folder currentFolder){
         Archive archive = currentFolder.getArchive(nameArchive);
         if(folder.verNameArchive(archive.getName())){
@@ -160,6 +159,30 @@ public class FileAdministrator {
             return "Se copio correctamente el archivo.";
         }
         return "No se puede copiar el archivo.";
+    }
+    public String changeDirectory(User u, String path){
+        if(path.equals("..")){
+            u.currentFolder = u.currentFolder.getFather();
+            return u.currentFolder.name;
+        }
+        Folder searched = u.currentFolder.getFolder(path);
+        if (!searched.equals(null)){
+            u.currentFolder = searched;
+            return path;
+        }
+        return "Folder not found: "+path;    
+    }
+
+    public String changeADirectory(User u, String path) {
+        if(path.equals("..")){
+            u.currentFolder = u.currentFolder.getFather();
+        }
+        Folder searched = u.mainFolder.getFolder(path);
+        if (!searched.equals(null)){
+            u.currentFolder = searched;
+            return path;
+        }
+        return "Folder not found: "+path;  
     }
         
 }

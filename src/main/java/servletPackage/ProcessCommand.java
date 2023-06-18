@@ -72,7 +72,6 @@ public class ProcessCommand extends HttpServlet {
             RequestData requestData;
             requestData = objectMapper.readValue(requestBody.toString(), RequestData.class);
             
-            out.println(requestData.getMemory());
 
             // Access the parsed JSON data
             String username = requestData.getUser();
@@ -93,7 +92,13 @@ public class ProcessCommand extends HttpServlet {
             switch (command) {
                 case "cd":
                     // Handle "cd" command
-                    out.println(fs.printUsers());
+                    data = requestData.getParameters();
+                    out.println(administrator.changeDirectory(u,data.get(0)));
+                    break;
+                case "cda":
+                    // Handle "cd" command
+                    data = requestData.getParameters();
+                    out.println(administrator.changeADirectory(u,data.get(0)));
                     break;
                 case "edit":
                     // Handle "edit" command

@@ -39,6 +39,7 @@ public class User {
         currentFolder = mainFolder;
     }
     public void startFileSystem(){
+        currentFolder = mainFolder;
         mainFolder.setChildrenFather();
     }
     public void setName(String name) {

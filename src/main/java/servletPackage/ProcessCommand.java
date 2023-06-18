@@ -40,6 +40,11 @@ public class ProcessCommand extends HttpServlet {
     protected void startServer(){
         fs = new MainFileSystem();
         fileManager = new JsonAdapter();
+    
+        //testing
+        Folder folder = new Folder("user", "c:", "24/01/2002", "Girome", "");
+        User u = new User("Girome", 9999,folder);
+        fs.users.add(u);
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,12 +71,15 @@ public class ProcessCommand extends HttpServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             RequestData requestData;
             requestData = objectMapper.readValue(requestBody.toString(), RequestData.class);
+            
+            out.println(requestData.getMemory());
 
             // Access the parsed JSON data
             String username = requestData.getUser();
+            int memory = requestData.getMemory();
             
             String command = requestData.getCommand();
-            User u = fs.getUser(username,1000); //Cambiar 1000 por el paramatro del size
+            User u = fs.getUser(username,memory); //Cambiar 1000 por el paramatro del size
 //            
 //            /* TODO output your page here. You may use following sample code. */
 //            

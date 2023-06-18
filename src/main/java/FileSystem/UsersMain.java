@@ -23,7 +23,7 @@ public class UsersMain {
         folder.addArchive(archive);
         
         MainFileSystem fs = new MainFileSystem();
-        User u = new User("Girome", 10000,folder);
+        User u = new User("Girome", 9999,folder);
         fs.users.add(u);
         String created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
         System.out.println("Created = "+created);

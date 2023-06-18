@@ -60,7 +60,6 @@
                                        placeholder="Espacio de memoria">
                                 <span id="memoryError" style="display: none; color: red;">Digite un número válido</span>
                                 <p>El espacio de memoria asignado por defecto será de 1000 Bytes</p>
-                                <p><a href="#" class="text-dark fw-bold" onclick="newAccount()">Crea una cuenta</a></p>
                             </div>
                         </form>
                     </div>
@@ -81,34 +80,7 @@
                     usernameError.innerHTML = "Favor ingresar un usuario válido"; // Update the error message
                     usernameError.style.display = "block";
                 }
-//                if (usernameInput Es un usuario que no existe){
-//                    usernameError.innerHTML = "Este usuario no existe"; // Update the error message
-//                    usernameError.style.display = "block";
-//                }
-                else {
-                    usernameError.style.display = "none";
-                    // Proceed with form submission or other actions
 
-                    console.log("Si esta llegando al login :v");
-                    // Redirect to the desired page
-                    window.location.href = "${pageContext.request.contextPath}/Index?username=" + encodeURIComponent(usernameInput);
-                }
-            }
-
-            function newAccount() {
-                // Perform any necessary validation or processing
-
-                var usernameInput = document.getElementById("Username").value.trim();
-                var usernameError = document.getElementById("usernameError");
-
-                if (usernameInput === "") {
-                    usernameError.innerHTML = "Favor ingresar un usuario válido"; // Update the error message
-                    usernameError.style.display = "block";
-                }
-//                if (usernameInput Es un usuario que ya existe){
-//                    usernameError.innerHTML = "Este usuario no está disponible, por favor selecciona otro"; // Update the error message
-//                    usernameError.style.display = "block";
-//                }
                 else {
                     usernameError.style.display = "none";
 
@@ -124,9 +96,8 @@
                         window.location.href = "${pageContext.request.contextPath}/Index?username=" + encodeURIComponent(usernameInput) + "&memory=" + encodeURIComponent(memory);
                     }
                 }
-
-
             }
+
         </script>
 
 

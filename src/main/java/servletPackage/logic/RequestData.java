@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class RequestData {
     String user;
+    int memory;
     String command;
     List<String> parameters;
 
@@ -19,6 +20,10 @@ public class RequestData {
         return user;
     }
 
+    public int getMemory() {
+        return memory;
+    }
+    
     public String getCommand() {
         return command;
     }

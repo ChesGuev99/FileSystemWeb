@@ -43,6 +43,7 @@
 
         var requestData = {
           user: username,
+          memory: memory,
           command: firstWord,
           parameters: otherWords
         };

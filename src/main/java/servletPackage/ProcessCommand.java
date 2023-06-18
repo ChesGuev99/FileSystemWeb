@@ -71,11 +71,11 @@ public class ProcessCommand extends HttpServlet {
             String username = requestData.getUser();
             
             String command = requestData.getCommand();
-            User u = fs.getUser(username);
+            User u = fs.getUser(username,1000); //Cambiar 1000 por el paramatro del size
 //            
 //            /* TODO output your page here. You may use following sample code. */
 //            
-            out.println(requestData.getUser() + " requested command: " + requestData.getCommand() + "with params" + requestData.getParameters().get(0));
+            out.println(requestData.getUser() + " requested command: " + requestData.getCommand() + "with params: " + requestData.getParameters().get(0));
             
             FileAdministrator administrator = new FileAdministrator();
             Folder currFolder = u.currentFolder;

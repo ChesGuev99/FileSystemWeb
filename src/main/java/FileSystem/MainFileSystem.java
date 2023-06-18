@@ -29,11 +29,13 @@ public class MainFileSystem {
     public MainFileSystem(){
         users = new ArrayList();
     }
-    public User getUser(String name){
+    public User getUser(String name, int size){
         for(int i=0;i<users.size();i++){
             if(users.get(i).name.equals(name))
                 return users.get(i);
         }
-        return null;
+        User newUser = new User(name,size);
+        users.add(newUser);
+        return newUser;
     }
 }

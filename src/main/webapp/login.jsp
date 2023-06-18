@@ -55,7 +55,11 @@
                             </div>
                             <div class="text-center"><button type="button" class="btn btn-color px-5 mb-5 w-100" onclick="login()">Iniciar Sesión</button></div>
                             <div id="emailHelp" class="form-text text-center mb-5 text-dark">
-                                <p>¿No eres usuario? Escribe tu nombre de usuario y</p>
+                                <p>¿No eres usuario? Escribe tu nombre de usuario y espacio de memoria</p>
+                                <input type="text" class="form-control" id="memory" aria-describedby="emailHelp"
+                                       placeholder="Espacio de memoria">
+                                <span id="memoryError" style="display: none; color: red;">Digite un número válido</span>
+                                <p>El espacio de memoria asignado por defecto será de 1000 Bytes</p>
                                 <p><a href="#" class="text-dark fw-bold" onclick="newAccount()">Crea una cuenta</a></p>
                             </div>
                         </form>
@@ -107,12 +111,20 @@
 //                }
                 else {
                     usernameError.style.display = "none";
-                    // Proceed with form submission or other actions
 
-                    console.log("Si esta llegando al login :v");
-                    // Redirect to the desired page
-                    window.location.href = "${pageContext.request.contextPath}/Index?username=" + encodeURIComponent(usernameInput);
+                    var memory = document.getElementById("memory").value.trim();
+                    var memoryError = document.getElementById("memoryError");
+
+                    if (isNaN(memory) && memory !== "") {
+                        memoryError.style.display = "block";
+                    }
+                    else{
+                        if(memory === ""){ memory = "1000"; }
+                        memoryError.style.display = "none";
+                        window.location.href = "${pageContext.request.contextPath}/Index?username=" + encodeURIComponent(usernameInput) + "&memory=" + encodeURIComponent(memory);
+                    }
                 }
+
 
             }
         </script>

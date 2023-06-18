@@ -35,7 +35,8 @@
         //window.location.href = "${pageContext.request.contextPath}/Login";
         var urlParams = new URLSearchParams(window.location.search);
         var username = urlParams.get('username');
-
+        var memory = urlParams.get("memory");
+        
         var inputText = document.getElementById("textInput").value.trim();
         var firstWord = inputText.split(" ")[0];
         var otherWords = inputText.split(" ").slice(1);

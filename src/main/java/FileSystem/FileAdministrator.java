@@ -4,6 +4,9 @@
  */
 package FileSystem;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 //import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -185,4 +188,16 @@ public class FileAdministrator {
         return "Folder not found: "+path;  
     }
         
+    public String vrArchive(String fileName, Folder folder){
+        if(folder.verNameArchive(fileName)) {
+            Archive archive = folder.getArchive(fileName);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName+".txt"))) {
+                writer.write(archive.getFileContent());
+                return "Se descargo correctamente el archivo";
+            } catch (IOException e) {
+                return "No se descargar correctamente el archivo";
+            }
+        }
+        return "No se logro encontrar el archivo";
+    }
 }

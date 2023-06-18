@@ -173,6 +173,7 @@ public class ProcessCommand extends HttpServlet {
                 case "vvF":
                     // Handle "vv" command
                     
+                    // vvF path(user:folder/folder/archive) path(user:folder/folder/archive)
                     data = requestData.getParameters();
                     folderDestiny = u.getPath(data.get(0), true);
                     Folder folderCopy = u.getPath(data.get(1), true);

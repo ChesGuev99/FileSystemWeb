@@ -17,38 +17,38 @@ import java.util.Date;
  */
 public class FileAdministrator {
     
-    public boolean moveArchive(String nameArchive, Folder folToMove, Folder folToDelete){
+    public String moveArchive(String nameArchive, Folder folToMove, Folder folToDelete){
         Archive archive = folToDelete.getArchive(nameArchive);
         if(archive != null){
             if(folToDelete.deleteArchive(archive)){
                 folToMove.addArchive(archive);
                 archive.setFather(folToMove);
                 archive.setLocationLogic(folToMove.getLocationLogic()+archive.getName());
-                return true;
+                return "Se logro mover el archivo";
             }
         }
-        return false;
+        return "No se logro mover el archivo";
     }
     
-    public boolean moveFolder(Folder folder, Folder folToMove){
+    public String moveFolder(Folder folder, Folder folToMove){
         if(!folToMove.verNameFolder(folder.getName())){
             if(folder.getFather().deleteFolder(folder)){
                 folToMove.addFolder(folder);
                 folder.setFather(folToMove);
                 folder.setLocationLogic(folToMove.getLocationLogic()+folder.getName()+"/");
-                return true;
+                return "Se logro mover el folder";
             }
         }
-        return false;
+        return "No se logro mover el folder";
     }
     
-    public boolean createFolder(Folder folder, String name, String directory, String createDate, String user, String locationLogic){
+    public String createFolder(Folder folder, String name, String directory, String createDate, String user, String locationLogic){
         if(!folder.verNameFolder(name)){
             Folder createFolder = new Folder(name, directory, folder, createDate, user, locationLogic);
             folder.addFolder(createFolder);
-            return true;
+            return "Se creo correctamente el folder.";
         }
-        return false;
+        return "No se logro crear correctamente el folder";
     }
 
     public boolean createFile(Folder father, String name, String extension, String fileContent) {
@@ -153,9 +153,10 @@ public class FileAdministrator {
         if(folToCopy.verNameFolder(folder.getName())){
             Folder newFolder = new Folder(folder.getName(), folToCopy.getDirectory(), 
                     folToCopy, getCurrentDate(), folder.getUser(), 
-                    folToCopy.getLocationLogic()+"/"+folder.getName());
+                    folToCopy.getLocationLogic()+folder.getName()+"/");
             newFolder.setFoldersIn(folder.getFoldersIn());
             newFolder.setArchiveIn(folder.getArchiveIn());
+            folToCopy.addFolder(newFolder);
             return "Se copio correctamente el folder.";
         }
         return "No se puede copiar el folder.";

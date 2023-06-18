@@ -22,7 +22,7 @@ public class Main {
         administrator.createFolder(folder, "raiz", "c:", "24/01/2002", "Diego", "");
         folder.addArchive(archive);
 
-        String created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
+        /*String created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
         System.out.println("Created = "+created);
         
         /*System.out.println("Folder = "+folder.getName()+" user = "+folder.getUser()+
@@ -30,7 +30,7 @@ public class Main {
                 " | Archive in = "+folder.getArchive("Archivo").getName()+" extension = "+folder.getArchive("Archivo").getExtension()+
                 " datemodify = "+folder.getArchive("Archivo").getDateModify());*/
         
-        System.out.println(administrator.listarDirectorios(folder));
+        /*System.out.println(administrator.listarDirectorios(folder));
 
         boolean updated = administrator.updateFile(folder, "Archivo", "Hola buenos días");
         System.out.println("Updated = "+updated);
@@ -54,6 +54,6 @@ public class Main {
         System.out.println("Folder = "+saveFolder.getName()+" user = "+saveFolder.getUser()+
                 " | Folder in = "+saveFolder.getFolder("raiz2").getName()+" user = "+saveFolder.getFolder("raiz2").getUser()+
                 " | Archive in = "+saveFolder.getArchive("Archivo").getName()+" extension = "+saveFolder.getArchive("Archivo").getExtension()+
-                " datemodify = "+saveFolder.getArchive("Archivo").getDateModify());
+                " datemodify = "+saveFolder.getArchive("Archivo").getDateModify());*/
     }
 }

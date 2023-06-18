@@ -93,7 +93,7 @@ public class ProcessCommand extends HttpServlet {
             switch (command) {
                 case "cd":
                     // Handle "cd" command
-                    out.println("Aqui muestra lo que hace el cd :v");
+                    out.println(fs.printUsers());
                     break;
                 case "edit":
                     // Handle "edit" command
@@ -232,7 +232,7 @@ public class ProcessCommand extends HttpServlet {
                     // Handle unknown command
                     break;
             }
-
+            fileManager.saveJsonFileSystem(fs);
         }
     }
 

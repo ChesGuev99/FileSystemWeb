@@ -25,18 +25,16 @@ public class UsersMain {
         MainFileSystem fs = new MainFileSystem();
         User u = new User("Girome", 9999,folder);
         fs.users.add(u);
-        String created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
-        System.out.println("Created = "+created);
-        
-        /*System.out.println("Folder = "+folder.getName()+" user = "+folder.getUser()+
+        administrator.createFile(folder, "archivo", "txt", "hola mundo", "");
+
+        System.out.println("Folder = "+folder.getName()+" user = "+folder.getUser()+
                 " | Folder in = "+folder.getFolder("raiz").getName()+" user = "+folder.getFolder("raiz").getUser()+
                 " | Archive in = "+folder.getArchive("Archivo").getName()+" extension = "+folder.getArchive("Archivo").getExtension()+
-                " datemodify = "+folder.getArchive("Archivo").getDateModify());*/
+                " datemodify = "+folder.getArchive("Archivo").getDateModify());
         
         System.out.println(administrator.listarDirectorios(folder));
 
-        boolean updated = administrator.updateFile(folder, "Archivo", "Hola buenos dias");
-        System.out.println("Updated = "+updated);
+        administrator.updateFile(folder, "Archivo", "Hola buenos dias");
 
         System.out.println(administrator.listarDirectorios(folder));
 
@@ -47,7 +45,7 @@ public class UsersMain {
         System.out.println("File content = "+fileContent);
         
         JsonAdapter file = new JsonAdapter();            //Clase para guardar y cargar los folders
-        //file.saveJsonFileSystem(fs);
+        file.saveJsonFileSystem(fs);
         MainFileSystem fs2 = file.loadJsonFileSystem();
         fs2.startFileSystem();
         

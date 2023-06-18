@@ -5,6 +5,7 @@
  */
 package FileSystem;
 
+import static java.lang.System.out;
 import java.util.ArrayList;
 
 /** 
@@ -37,5 +38,12 @@ public class MainFileSystem {
         User newUser = new User(name,size);
         users.add(newUser);
         return newUser;
+    }
+    public String printUsers(){
+        String res = "";
+        for(int i=0;i<users.size();i++){
+           res += users.get(i).name+" "+users.get(i).size+"\n";
+        }
+        return res;
     }
 }

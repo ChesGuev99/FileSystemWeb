@@ -1,11 +1,4 @@
-FileSystem\Folder.class
-servletPackage\Login.class
-servletPackage\ProcessCommand.class
-com\tec\filesystemweb\JakartaRestConfiguration.class
 FileSystem\FileAdministrator.class
 servletPackage\logic\RequestData.class
 FileSystem\Archive.class
-FileSystem\MainFileSystem.class
-servletPackage\Index.class
-FileSystem\User.class
-com\tec\filesystemweb\resources\JakartaEE8Resource.class
+FileSystem\Folder.class

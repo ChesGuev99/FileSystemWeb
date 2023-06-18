@@ -51,14 +51,15 @@ public class FileAdministrator {
         return "No se logro crear correctamente el folder";
     }
 
-    public boolean createFile(Folder father, String name, String extension, String fileContent) {
+    public String createFile(Folder father, String name, String extension, String fileContent, String logicalLocation) {
         if(!father.verNameArchive(name)) {
             String currentDate = getCurrentDate();
-            Archive archive = new Archive(name, 0, extension, currentDate, currentDate, 666, 0, fileContent);
+            int size = fileContent.getBytes().length;
+            Archive archive = new Archive(name, size, extension, currentDate, currentDate, 666, 0, fileContent, logicalLocation);
             father.addArchive(archive);
-            return true;
+            return "Se creó el archivo correctamente";
         }
-        return false;
+        return "No se pudo crear el archivo";
     }
     
     public String getCurrentDate() {
@@ -68,15 +69,17 @@ public class FileAdministrator {
         return currentDate;
     }
 
-    public boolean updateFile(Folder folder, String fileName, String fileContent) {
+    public String updateFile(Folder folder, String fileName, String fileContent) {
         if(folder.verNameArchive(fileName)) {
             String currentDate = getCurrentDate();
+            int size = fileContent.getBytes().length;
             Archive archive = folder.getArchive(fileName);
             archive.setFileContent(fileContent);
+            archive.setSize(size);
             archive.setDateModify(currentDate);
-            return true;
+            return "Se actualizó el archivo correctamente";
         }
-        return false;
+        return "No se pudo actualizar el archivo";
     }
 
     public String seeFileProperties(Folder folder, String fileName) {
@@ -91,21 +94,6 @@ public class FileAdministrator {
         }
         return properties;
     }
-
-    /* 
-    public JSONObject getFilePropertiesJson (Folder folder, String fileName) {
-        JSONObject json = new JSONObject();
-        if(folder.verNameArchive(fileName)){
-            json.put("Nombre", folder.getArchive(fileName).getName());
-            json.put("Extensión", folder.getArchive(fileName).getExtension());
-            json.put("Fecha de creación", folder.getArchive(fileName).getDateCreate());
-            json.put("Fecha de modificación", folder.getArchive(fileName).getDateModify());
-            json.put("Tamaño", folder.getArchive(fileName).getSize());
-        } else {
-            json.put("Error", "Archivo no encontrado");
-        }
-        return json;
-    } */
 
     public String seeFile(Folder folder, String fileName) {
         String fileContent = "";
@@ -131,22 +119,22 @@ public class FileAdministrator {
         return lista;
     }
     
-    public boolean deleteFile(Folder folder, String fileName) {
+    public String deleteFile(Folder folder, String fileName) {
         boolean deleted = false;
         if(folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
             deleted = folder.deleteArchive(archive);
         }
-        return deleted;
+        return deleted ? "Se eliminó el archivo correctamente" : "No se pudo eliminar el archivo";
     }
 
-    public boolean deleteFolder(Folder folder, String folderName) {
+    public String deleteFolder(Folder folder, String folderName) {
         boolean deleted = false;
         if(folder.verNameFolder(folderName)) {
             Folder folderToDelete = folder.getFolder(folderName);
             deleted = folder.deleteFolder(folderToDelete);
         }
-        return deleted;
+        return deleted ? "Se eliminó el folder correctamente" : "No se pudo eliminar el folder";
     }   
     
     public String copiarVVFolder(Folder folder, Folder folToCopy){

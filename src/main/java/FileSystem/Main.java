@@ -22,7 +22,7 @@ public class Main {
         administrator.createFolder(folder, "raiz", "c:", "24/01/2002", "Diego", "");
         folder.addArchive(archive);
 
-        boolean created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
+        String created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
         System.out.println("Created = "+created);
         
         /*System.out.println("Folder = "+folder.getName()+" user = "+folder.getUser()+

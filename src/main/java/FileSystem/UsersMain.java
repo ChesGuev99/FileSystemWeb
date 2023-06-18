@@ -25,7 +25,7 @@ public class UsersMain {
         MainFileSystem fs = new MainFileSystem();
         User u = new User("Girome", 10000,folder);
         fs.users.add(u);
-        boolean created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
+        String created = administrator.createFile(folder, "File by create", ".txt", "Hola mundo");
         System.out.println("Created = "+created);
         
         /*System.out.println("Folder = "+folder.getName()+" user = "+folder.getUser()+

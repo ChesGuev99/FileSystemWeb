@@ -208,6 +208,11 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "vr":
                     // Handle "vr" command
+                    
+                    // vr fileName
+                    data = requestData.getParameters();
+                    result = administrator.vrArchive(data.get(0), u.currentFolder);
+                    out.println(result);
                     break;
                 case "vvA":
                     // Handle "vv" command

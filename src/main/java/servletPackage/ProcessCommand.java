@@ -200,9 +200,6 @@ public class ProcessCommand extends HttpServlet {
                     result = administrator.deleteFolder(currFolder, data.get(0));
                     out.println(result);
                     break;
-                case "rv":
-                    // Handle "rv" command
-                    break;
                 case "share":
                     // Handle "share" command
                     break;

@@ -47,25 +47,67 @@
           command: firstWord,
           parameters: otherWords
         };
+        if (firstWord === "rv") {
+            var fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.style.display = "none";
+            fileInput.onchange = function(e) {
+              var file = e.target.files[0];
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                var fileContent = e.target.result;
+                var fileExtension = file.name.split(".").pop();
+                var requestData = {
+                  user: username,
+                  memory: memory,
+                  command: "mkFile",
+                  parameters: [file.name[0], fileExtension, fileContent]
+                };
 
-        fetch("${pageContext.request.contextPath}/ProcessCommand", {
-            method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(requestData)
-        })
-          .then(response => response.text())
-          .then(data => {
-            var newText = accumulatedText + "\n" + inputText + "\n" + data;
-            document.getElementById("textArea").value = newText;
-            accumulatedText = newText;
-          })
-          .catch(error => {
-            var newText = accumulatedText + "\n" + inputText + "\n" + error;
-            document.getElementById("textArea").value = newText;
-            accumulatedText = newText;
-          });
+                fetch("${pageContext.request.contextPath}/ProcessCommand", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(requestData)
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    var newText = accumulatedText + "\n" + "Archivo enviado: " + file.name + "\n" + data;
+                    document.getElementById("textArea").value = newText;
+                    accumulatedText = newText;
+                  })
+                  .catch(error => {
+                    var newText = accumulatedText + "\n" + "Error al enviar archivo: " + file.name + "\n" + error;
+                    document.getElementById("textArea").value = newText;
+                    accumulatedText = newText;
+                  });
+              };
+              reader.readAsText(file);
+            };
+            document.body.appendChild(fileInput);
+            fileInput.click();
+            document.body.removeChild(fileInput);
+        }else{
+            fetch("${pageContext.request.contextPath}/ProcessCommand", {
+                method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(requestData)
+            })
+              .then(response => response.text())
+              .then(data => {
+                var newText = accumulatedText + "\n" + inputText + "\n" + data;
+                document.getElementById("textArea").value = newText;
+                accumulatedText = newText;
+              })
+              .catch(error => {
+                var newText = accumulatedText + "\n" + inputText + "\n" + error;
+                document.getElementById("textArea").value = newText;
+                accumulatedText = newText;
+              });
+          }
       }
     }
 

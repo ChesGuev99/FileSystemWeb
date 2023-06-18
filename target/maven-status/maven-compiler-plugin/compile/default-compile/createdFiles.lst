@@ -5,7 +5,6 @@ servletPackage\ProcessCommand.class
 com\tec\filesystemweb\JakartaRestConfiguration.class
 FileSystem\FileAdministrator.class
 servletPackage\logic\RequestData.class
-FileSystem\JsonAddapter.class
 FileSystem\Archive.class
 FileSystem\UsersMain.class
 FileSystem\MainFileSystem.class

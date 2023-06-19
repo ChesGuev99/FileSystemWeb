@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class JsonAdapter {
     private String json = "";
     private ObjectMapper mapper = new ObjectMapper();
-    private String relativePath = "src/main/java/FileSystem/folders.json";
+    private String relativePath = "folders.json";
     private String filePath = System.getProperty("user.dir") + File.separator + relativePath;
 
     public void saveJsonFolder(Folder folder) throws JsonProcessingException {
@@ -56,6 +56,7 @@ public class JsonAdapter {
         } catch (IOException ex) {
             object = new MainFileSystem();
         }
+        object.startFileSystem();
         return object;
     }
 }

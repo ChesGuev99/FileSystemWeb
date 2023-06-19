@@ -19,7 +19,7 @@ public class User {
     public Folder currentFolder;
     public int size;
     public int usedSize;
-    
+    public Folder sharedFolder;
     public User() {}
     public User(String name, int size){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -28,6 +28,8 @@ public class User {
         this.name = name;
         this.size = size;
         mainFolder = new Folder(name,name+":",currentDate,name,"");
+        sharedFolder = new Folder("shared",mainFolder.getDirectory()+"/shared",currentDate,name,"");
+        mainFolder.foldersIn.add(sharedFolder);
         currentFolder = mainFolder;
     }
     public User(String name, int size, Folder folder){
@@ -37,6 +39,7 @@ public class User {
         currentFolder = mainFolder;
     }
     public void startFileSystem(){
+        currentFolder = mainFolder;
         mainFolder.setChildrenFather();
     }
     public void setName(String name) {

@@ -32,6 +32,18 @@ public class Archive {
         this.content = content;
     }
 
+    public Archive(String name, int size, String extension, String dateCreate, String dateModify, int protection, int identifier, String content, String logicalLocation) {
+        this.name = name;
+        this.size = size;
+        this.extension = extension;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+        this.protection = protection;
+        this.identifier = identifier;
+        this.content = content;
+        this.locationLogic = logicalLocation;
+    }
+
     public Archive() {
     }
 

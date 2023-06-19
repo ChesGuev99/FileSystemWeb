@@ -72,7 +72,6 @@ public class ProcessCommand extends HttpServlet {
             RequestData requestData;
             requestData = objectMapper.readValue(requestBody.toString(), RequestData.class);
             
-            out.println(requestData.getMemory());
 
             // Access the parsed JSON data
             String username = requestData.getUser();
@@ -83,7 +82,7 @@ public class ProcessCommand extends HttpServlet {
 //            
 //            /* TODO output your page here. You may use following sample code. */
 //            
-            out.println(u.name + "with memory:"+ u.getSize()+ "  requested command: " + requestData.getCommand() + "with params: " + requestData.getParameters());
+            out.println(requestData.getUser() + " requested command: " + requestData.getCommand() + " with params: " + ((requestData.getParameters().size() > 0) ? requestData.getParameters().get(0) : "none"));
             
             FileAdministrator administrator = new FileAdministrator();
             Folder currFolder = u.currentFolder;
@@ -93,7 +92,13 @@ public class ProcessCommand extends HttpServlet {
             switch (command) {
                 case "cd":
                     // Handle "cd" command
-                    out.println("Aqui muestra lo que hace el cd :v");
+                    data = requestData.getParameters();
+                    out.println(administrator.changeDirectory(u,data.get(0)));
+                    break;
+                case "cda":
+                    // Handle "cd" command
+                    data = requestData.getParameters();
+                    out.println(administrator.changeADirectory(u,data.get(0)));
                     break;
                 case "edit":
                     // Handle "edit" command
@@ -122,7 +127,28 @@ public class ProcessCommand extends HttpServlet {
                             currFolder.getDirectory()+data.get(0)+"/");
                     out.println(result);
                     break;
-
+                case "mkFile":
+                    // mkFile filename extension content
+                    data = requestData.getParameters();
+                    String content = "";
+                    for (int i = 2; i < data.size(); i++) {
+                        content += data.get(i) + (i == data.size() - 1 ? "" : " "); 
+                    }
+                    String logicalLocation = currFolder.getDirectory()+data.get(0)+"."+data.get(1)+"/";
+                    // call calculate size calculateSize(int added, int removed)
+                    result = administrator.createFile(currFolder, data.get(0), data.get(1), content, logicalLocation);
+                    out.println(result);
+                    break;
+                case "updFile":
+                    // updFile filename newcontent
+                    data = requestData.getParameters();
+                    String newContent = "";
+                    for (int i = 1; i < data.size(); i++) {
+                        newContent += data.get(i) + (i == data.size() - 1 ? "" : " "); 
+                    }
+                    result = administrator.updateFile(currFolder, data.get(0), newContent);
+                    out.println(result);
+                    break;
                 case "mkDrv":
                     // Handle "mkDrv" command
                     break;
@@ -146,18 +172,33 @@ public class ProcessCommand extends HttpServlet {
                     result = administrator.moveFolder(folderMove, folderDestiny);
                     out.println(result);
                     break;
-                    
                 case "prop":
                     // Handle "prop" command
+                    // prop nombreArchivo
+                    data = requestData.getParameters();
+                    result = administrator.seeFileProperties(currFolder, data.get(0));
+                    out.println(result);
                     break;
-                case "rm":
+                // command to see file content
+                case "seeFile":
+                    // seeFile nombreArchivo
+                    data = requestData.getParameters();
+                    result = administrator.seeFile(currFolder, data.get(0));
+                    out.println(result);
+                    break;
+                case "rmFile":
                     // Handle "rm" command
+                    // rmfile filename
+                    data = requestData.getParameters();
+                    result = administrator.deleteFile(currFolder, data.get(0));
+                    out.println(result);
                     break;
-                case "rmdir":
+                case "rmDir":
                     // Handle "rmdir" command
-                    break;
-                case "rv":
-                    // Handle "rv" command
+                    // rmdir foldername
+                    data = requestData.getParameters();
+                    result = administrator.deleteFolder(currFolder, data.get(0));
+                    out.println(result);
                     break;
                 case "share":
                     // Handle "share" command
@@ -167,6 +208,11 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "vr":
                     // Handle "vr" command
+                    
+                    // vr fileName
+                    data = requestData.getParameters();
+                    result = administrator.vrArchive(data.get(0), u.currentFolder);
+                    out.println(result);
                     break;
                 case "vvA":
                     // Handle "vv" command
@@ -193,7 +239,7 @@ public class ProcessCommand extends HttpServlet {
                     // Handle unknown command
                     break;
             }
-
+            fileManager.saveJsonFileSystem(fs);
         }
     }
 

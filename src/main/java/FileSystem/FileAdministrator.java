@@ -261,13 +261,14 @@ public class FileAdministrator {
         return "Folder not found: " + path;
     }
 
-    public String vrArchive(String fileName, Folder folder) {
+    public String vrArchive(String fileName,String path, Folder folder) {
         if (folder == null) {
             return "No se encontro un folder";
         }
         if (folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt"))) {
+            
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(path+"/"+fileName + ".txt"))) {
                 writer.write(archive.getFileContent());
                 return "Se descargo correctamente el archivo";
             } catch (IOException e) {

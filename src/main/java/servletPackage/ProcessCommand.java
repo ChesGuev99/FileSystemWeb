@@ -249,7 +249,7 @@ public class ProcessCommand extends HttpServlet {
 
                     // vr fileName
                     data = requestData.getParameters();
-                    result = administrator.vrArchive(data.get(0), u.currentFolder);
+                    result = administrator.vrArchive(data.get(0),data.get(1), u.currentFolder);
                     out.println(result);
                     break;
                 case "vvA":

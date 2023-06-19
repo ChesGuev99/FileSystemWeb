@@ -21,7 +21,7 @@
       font-family: Consolas;
       font-size: 12px;
       width: 100%;
-      height: 480px;
+      height: 570px;
       box-sizing: border-box;
       resize: none;
     }
@@ -61,7 +61,7 @@
                   user: username,
                   memory: memory,
                   command: "mkFile",
-                  parameters: [file.name[0], fileExtension, fileContent]
+                  parameters: [file.name.split(".")[0], fileExtension, fileContent]
                 };
 
                 fetch("${pageContext.request.contextPath}/ProcessCommand", {

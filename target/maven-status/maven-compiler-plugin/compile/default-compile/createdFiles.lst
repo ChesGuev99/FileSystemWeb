@@ -9,5 +9,6 @@ FileSystem\Archive.class
 FileSystem\UsersMain.class
 FileSystem\MainFileSystem.class
 servletPackage\Index.class
+FileSystem\JsonAdapter.class
 FileSystem\User.class
 com\tec\filesystemweb\resources\JakartaEE8Resource.class

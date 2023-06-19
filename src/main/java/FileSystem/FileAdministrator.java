@@ -21,6 +21,9 @@ import java.util.Date;
 public class FileAdministrator {
     
     public String moveArchive(String nameArchive, Folder folToMove, Folder folToDelete){
+        if(folToMove == null || folToDelete == null){
+            return "No se encontro un folder";
+        }
         Archive archive = folToDelete.getArchive(nameArchive);
         if(archive != null){
             if(folToDelete.deleteArchive(archive)){
@@ -34,6 +37,9 @@ public class FileAdministrator {
     }
     
     public String moveFolder(Folder folder, Folder folToMove){
+        if(folToMove == null || folder == null){
+            return "No se encontro un folder";
+        }
         if(!folToMove.verNameFolder(folder.getName())){
             if(folder.getFather().deleteFolder(folder)){
                 folToMove.addFolder(folder);
@@ -46,6 +52,9 @@ public class FileAdministrator {
     }
     
     public String createFolder(Folder folder, String name, String directory, String createDate, String user, String locationLogic){
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         if(!folder.verNameFolder(name)){
             Folder createFolder = new Folder(name, directory, folder, createDate, user, locationLogic);
             folder.addFolder(createFolder);
@@ -55,6 +64,9 @@ public class FileAdministrator {
     }
 
     public String createFile(Folder father, String name, String extension, String fileContent, String logicalLocation) {
+        if(father == null){
+            return "No se encontro un folder";
+        }
         if(!father.verNameArchive(name)) {
             String currentDate = getCurrentDate();
             int size = fileContent.getBytes().length;
@@ -73,6 +85,9 @@ public class FileAdministrator {
     }
 
     public String updateFile(Folder folder, String fileName, String fileContent) {
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         if(folder.verNameArchive(fileName)) {
             String currentDate = getCurrentDate();
             int size = fileContent.getBytes().length;
@@ -86,6 +101,9 @@ public class FileAdministrator {
     }
 
     public String seeFileProperties(Folder folder, String fileName) {
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         String properties = "";
         if(folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
@@ -99,6 +117,9 @@ public class FileAdministrator {
     }
 
     public String seeFile(Folder folder, String fileName) {
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         String fileContent = "";
         if(folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
@@ -108,6 +129,9 @@ public class FileAdministrator {
     }
     
     public String listarDirectorios(Folder folder){
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         String lista = "";
         ArrayList<Folder> folders = folder.getFoldersIn();
         for(int i = 0; i < folders.size(); i++){
@@ -123,6 +147,9 @@ public class FileAdministrator {
     }
     
     public String deleteFile(Folder folder, String fileName) {
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         boolean deleted = false;
         if(folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
@@ -132,6 +159,9 @@ public class FileAdministrator {
     }
 
     public String deleteFolder(Folder folder, String folderName) {
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         boolean deleted = false;
         if(folder.verNameFolder(folderName)) {
             Folder folderToDelete = folder.getFolder(folderName);
@@ -141,6 +171,9 @@ public class FileAdministrator {
     }   
     
     public String copiarVVFolder(Folder folder, Folder folToCopy){
+        if(folder == null || folToCopy == null){
+            return "No se encontro un folder";
+        }
         if(folToCopy.verNameFolder(folder.getName())){
             Folder newFolder = new Folder(folder.getName(), folToCopy.getDirectory(), 
                     folToCopy, getCurrentDate(), folder.getUser(), 
@@ -152,7 +185,11 @@ public class FileAdministrator {
         }
         return "No se puede copiar el folder.";
     }
+    
     public String copiarVVArchive(Folder folder, String nameArchive, Folder currentFolder){
+        if(folder == null || currentFolder == null){
+            return "No se encontro un folder";
+        }
         Archive archive = currentFolder.getArchive(nameArchive);
         if(folder.verNameArchive(archive.getName())){
             Archive newArchive = new Archive(archive.getName(), archive.getSize(), 
@@ -163,6 +200,7 @@ public class FileAdministrator {
         }
         return "No se puede copiar el archivo.";
     }
+    
     public String changeDirectory(User u, String path){
         if(path.equals("..")){
             u.currentFolder = u.currentFolder.getFather();
@@ -189,6 +227,9 @@ public class FileAdministrator {
     }
         
     public String vrArchive(String fileName, Folder folder){
+        if(folder == null){
+            return "No se encontro un folder";
+        }
         if(folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName+".txt"))) {

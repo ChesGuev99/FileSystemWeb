@@ -76,9 +76,9 @@ public class User {
     public Folder getPath(String path, boolean isAbs){
         String[] folders = path.split("/");
         Folder auxCurrFolder;
-        if(isAbs)
+        if(isAbs){
             auxCurrFolder = mainFolder;
-        else 
+        }else 
             auxCurrFolder= currentFolder;
         boolean found = false;
         for (String folder : folders) {

@@ -136,7 +136,7 @@ public class ProcessCommand extends HttpServlet {
                     }
                     String logicalLocation = currFolder.getDirectory()+data.get(0)+"."+data.get(1)+"/";
                     // call calculate size calculateSize(int added, int removed)
-                    result = administrator.createFile(currFolder, data.get(0), data.get(1), content, logicalLocation);
+                    result = administrator.createFile(currFolder, data.get(0), data.get(1), content, logicalLocation, u);
                     out.println(result);
                     break;
                 case "updFile":
@@ -146,7 +146,7 @@ public class ProcessCommand extends HttpServlet {
                     for (int i = 1; i < data.size(); i++) {
                         newContent += data.get(i) + (i == data.size() - 1 ? "" : " "); 
                     }
-                    result = administrator.updateFile(currFolder, data.get(0), newContent);
+                    result = administrator.updateFile(currFolder, data.get(0), newContent, u, fs);
                     out.println(result);
                     break;
                 case "mkDrv":
@@ -190,7 +190,7 @@ public class ProcessCommand extends HttpServlet {
                     // Handle "rm" command
                     // rmfile filename
                     data = requestData.getParameters();
-                    result = administrator.deleteFile(currFolder, data.get(0));
+                    result = administrator.deleteFile(currFolder, data.get(0),fs);
                     out.println(result);
                     break;
                 case "rmDir":
@@ -201,10 +201,8 @@ public class ProcessCommand extends HttpServlet {
                     out.println(result);
                     break;
                 case "share":
-                    // Handle "share" command
-                    break;
-                case "touch":
-                    // Handle "touch" command
+                    data = requestData.getParameters();
+                    out.println(administrator.shareFile(u.currentFolder,data.get(0),fs.getU(data.get(1))));
                     break;
                 case "vr":
                     // Handle "vr" command

@@ -54,15 +54,18 @@ public class FileAdministrator {
         return "No se logro crear correctamente el folder";
     }
 
-    public String createFile(Folder father, String name, String extension, String fileContent, String logicalLocation) {
+    public String createFile(Folder father, String name, String extension, String fileContent, String logicalLocation, User user) {
         if(!father.verNameArchive(name)) {
             String currentDate = getCurrentDate();
             int size = fileContent.getBytes().length;
-            Archive archive = new Archive(name, size, extension, currentDate, currentDate, 666, 0, fileContent, logicalLocation);
-            father.addArchive(archive);
-            return "Se creó el archivo correctamente";
+            boolean enoughSize = user.calculateSize(size, 0);
+            if (enoughSize) {
+                Archive archive = new Archive(name, size, extension, currentDate, currentDate, 666, 0, fileContent, logicalLocation);
+                father.addArchive(archive);
+                return "Se creó el archivo correctamente";
+            }
         }
-        return "No se pudo crear el archivo";
+        return "No se pudo crear el archivo";
     }
     
     public String getCurrentDate() {
@@ -72,17 +75,30 @@ public class FileAdministrator {
         return currentDate;
     }
 
-    public String updateFile(Folder folder, String fileName, String fileContent) {
-        if(folder.verNameArchive(fileName)) {
-            String currentDate = getCurrentDate();
-            int size = fileContent.getBytes().length;
-            Archive archive = folder.getArchive(fileName);
-            archive.setFileContent(fileContent);
-            archive.setSize(size);
-            archive.setDateModify(currentDate);
-            return "Se actualizó el archivo correctamente";
-        }
-        return "No se pudo actualizar el archivo";
+    public String updateFile(Folder folder, String fileName, String fileContent, User user,MainFileSystem fs) {
+            if(folder.verNameArchive(fileName)) {
+                String currentDate = getCurrentDate();
+                int size = fileContent.getBytes().length;
+                Archive archive = folder.getArchive(fileName);
+                boolean enoughSize = user.calculateSize(size, archive.getSize());
+                if (enoughSize) {
+                    archive.setFileContent(fileContent);
+                    archive.setSize(size);
+                    archive.setDateModify(currentDate);
+                    for(int i = 0; i < archive.sharedUsers.size(); i++){
+                        Folder shared = fs.getU(archive.sharedUsers.get(i)).sharedFolder;
+                        for(int j= 0; j < shared.archiveIn.size();j++){
+                            if(shared.archiveIn.get(j).getName().equals(fileName)){
+                                shared.archiveIn.remove(j);
+                                shared.archiveIn.add(archive);
+                            }
+                        }
+                    }
+                    return "Se actualizó el archivo correctamente";
+                }
+                
+            }
+            return "No se pudo actualizar el archivo";
     }
 
     public String seeFileProperties(Folder folder, String fileName) {
@@ -122,11 +138,19 @@ public class FileAdministrator {
         return lista;
     }
     
-    public String deleteFile(Folder folder, String fileName) {
+    public String deleteFile(Folder folder, String fileName, MainFileSystem fs) {
         boolean deleted = false;
         if(folder.verNameArchive(fileName)) {
             Archive archive = folder.getArchive(fileName);
             deleted = folder.deleteArchive(archive);
+            for(int i = 0; i < archive.sharedUsers.size(); i++){
+                Folder shared = fs.getU(archive.sharedUsers.get(i)).sharedFolder;
+                for(int j= 0; j < shared.archiveIn.size();j++){
+                    if(shared.archiveIn.get(j).getName().equals(fileName)){
+                        shared.archiveIn.remove(j);
+                    }
+                }
+            }
         }
         return deleted ? "Se eliminó el archivo correctamente" : "No se pudo eliminar el archivo";
     }
@@ -197,6 +221,14 @@ public class FileAdministrator {
             } catch (IOException e) {
                 return "No se descargar correctamente el archivo";
             }
+        }
+        return "No se logro encontrar el archivo";
+    }
+    public String shareFile(Folder folder, String fileName,User u){
+        if(folder.verNameArchive(fileName)) {
+            Archive archive = folder.getArchive(fileName);
+            u.sharedFolder.archiveIn.add(archive);
+            archive.sharedUsers.add(u.name);
         }
         return "No se logro encontrar el archivo";
     }

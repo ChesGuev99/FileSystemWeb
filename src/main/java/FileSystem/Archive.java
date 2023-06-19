@@ -4,6 +4,8 @@
  */
 package FileSystem;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Girome
@@ -20,6 +22,7 @@ public class Archive {
     private String locationLogic;     //Ubicacion logica del archivo
     private String locationphysical;  //Ubicacion fisica del archivo
     private String content;
+    public ArrayList<String> sharedUsers;
 
     public Archive(String name, int size, String extension, String dateCreate, String dateModify, int protection, int identifier, String content) {
         this.name = name;
@@ -30,6 +33,7 @@ public class Archive {
         this.protection = protection;
         this.identifier = identifier;
         this.content = content;
+        this.sharedUsers = new ArrayList<>();
     }
 
     public Archive(String name, int size, String extension, String dateCreate, String dateModify, int protection, int identifier, String content, String logicalLocation) {
@@ -42,6 +46,7 @@ public class Archive {
         this.identifier = identifier;
         this.content = content;
         this.locationLogic = logicalLocation;
+        this.sharedUsers = new ArrayList<>();
     }
 
     public Archive() {

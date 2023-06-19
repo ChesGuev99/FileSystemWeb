@@ -39,6 +39,13 @@ public class MainFileSystem {
         users.add(newUser);
         return newUser;
     }
+    public User getU(String name){
+            for(int i=0;i<users.size();i++){
+                if(users.get(i).name.equals(name))
+                    return users.get(i);
+            }
+            return null;
+        }
     public String printUsers(){
         String res = "";
         for(int i=0;i<users.size();i++){

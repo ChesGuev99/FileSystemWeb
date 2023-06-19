@@ -76,14 +76,11 @@ public class User {
     public Folder getPath(String path, boolean isAbs){
         String[] folders = path.split("/");
         Folder auxCurrFolder;
-        
-        
         if(isAbs){
             auxCurrFolder = mainFolder;
             String[] foldersWithoutFirstValue = new String[folders.length - 1];
             System.arraycopy(folders, 1, foldersWithoutFirstValue, 0, foldersWithoutFirstValue.length);
             folders = foldersWithoutFirstValue;
-            System.out.println("Folder without first"+ folders);
         }
         else 
             auxCurrFolder= currentFolder;
@@ -105,9 +102,9 @@ public class User {
         return auxCurrFolder;
     }
         
-    public boolean calculateSize(int added, int removed){
-        int auxSize = usedSize + added - removed;
-        if (auxSize<=usedSize){
+    public boolean calculateSize(int added, int removed) {
+        int auxSize = this.usedSize + added - removed;
+        if (auxSize <= this.size) {
             usedSize = auxSize;
             return true;
         }

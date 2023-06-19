@@ -174,7 +174,7 @@ public class ProcessCommand extends HttpServlet {
                     for (int i = 2; i < data.size(); i++) {
                         content += data.get(i) + (i == data.size() - 1 ? "" : " ");
                     }
-                    String logicalLocation = currFolder.getDirectory() + data.get(0) + "." + data.get(1) + "/";
+                    String logicalLocation = currFolder.getDirectory() + data.get(0) + data.get(1) + "/";
                     // call calculate size calculateSize(int added, int removed)
                     result = administrator.createFile(currFolder, data.get(0), data.get(1), content, logicalLocation, u);
                     out.println(result);

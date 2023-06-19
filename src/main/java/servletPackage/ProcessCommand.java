@@ -124,6 +124,8 @@ public class ProcessCommand extends HttpServlet {
                             + "    Uso: mkFile <nombreArchivo> <extensión> <contenido>\n"
                             + "updFile: Actualizar el contenido de un archivo.\n"
                             + "    Uso: updFile <nombreArchivo> <nuevoContenido>\n"
+                            + "mem: Ver espacio disponible.\n"
+                            + "   Uso: mem\n"
                             + "mvA: Mover un archivo.\n"
                             + "   Uso: mvA <nombreArchivo> <rutaDestino>\n"
                             + "mvF: Mover un directorio.\n"
@@ -240,7 +242,7 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "share":
                     data = requestData.getParameters();
-                    out.println(administrator.shareFile(u.currentFolder,data.get(0),fs.getU(data.get(1))));
+                    out.println(administrator.shareFile(currFolder,data.get(0),fs.getU(data.get(1))));
                     break;
                 case "vr":
                     // Handle "vr" command
@@ -270,7 +272,11 @@ public class ProcessCommand extends HttpServlet {
                     result = administrator.copiarVVFolder(folderCopy, folderCopy);
                     out.println(result);
                     break;
-
+                    
+                case "mem":
+                    out.println("Espacio inicial: "+ u.getSize());
+                    out.println("Espacio utilizado: " + u.getUsedSize());
+                    out.println("Espacio disponible: " + u.currentMem());
                 default:
                     // Handle unknown command
                     break;

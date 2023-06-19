@@ -54,6 +54,10 @@ public class User {
         this.currentFolder = currentFolder;
     }
 
+    public int getUsedSize() {
+        return usedSize;
+    }
+
     public void setSize(int size) {
         this.size = size;
     }
@@ -102,6 +106,10 @@ public class User {
         return auxCurrFolder;
     }
         
+    public int currentMem(){
+        return (this.size - this.usedSize);
+    }
+    
     public boolean calculateSize(int added, int removed) {
         int auxSize = this.usedSize + added - removed;
         if (auxSize <= this.size) {

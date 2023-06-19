@@ -168,8 +168,13 @@ public class FileAdministrator {
             u.currentFolder = u.currentFolder.getFather();
             return u.currentFolder.name;
         }
-        Folder searched = u.currentFolder.getFolder(path);
-        if (!searched.equals(null)){
+        if(u.mainFolder.getName().equals(path)){
+            u.currentFolder = u.mainFolder;
+            return path;
+        }
+        Folder searched = u.getPath(path, false);
+        //Folder searched = u.currentFolder.getFolder(foundDirectory);
+        if (searched != null){
             u.currentFolder = searched;
             return path;
         }
@@ -180,8 +185,13 @@ public class FileAdministrator {
         if(path.equals("..")){
             u.currentFolder = u.currentFolder.getFather();
         }
-        Folder searched = u.mainFolder.getFolder(path);
-        if (!searched.equals(null)){
+        if(u.mainFolder.getName().equals(path)){
+            u.currentFolder = u.mainFolder;
+            return path;
+        }
+        Folder searched = u.getPath(path, true);
+        //Folder searched = u.mainFolder.getFolder(path);
+        if (searched != null){
             u.currentFolder = searched;
             return path;
         }

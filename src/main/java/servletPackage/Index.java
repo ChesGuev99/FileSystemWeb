@@ -34,8 +34,8 @@ public class Index extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            Folder folder = new Folder("user", "c:", "24/01/2002", "Girome", "");   
-            out.println(folder.getName());
+            //Folder folder = new Folder("user", "c:", "24/01/2002", "Girome", "");   
+            //out.println(folder.getName());
 //            out.println("<html>");
 //            out.println("<head>");
 //            out.println("<title>Servlet Index</title>");            

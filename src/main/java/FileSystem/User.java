@@ -27,8 +27,8 @@ public class User {
         String currentDate = formatter.format(date);
         this.name = name;
         this.size = size;
-        mainFolder = new Folder(name,name+":",currentDate,name,"");
-        sharedFolder = new Folder("shared",mainFolder.getDirectory()+"/shared",currentDate,name,"");
+        mainFolder = new Folder(name,name+"/",currentDate,name,"");
+        sharedFolder = new Folder("shared",mainFolder.getDirectory()+"shared/",currentDate,name,"");
         mainFolder.foldersIn.add(sharedFolder);
         currentFolder = mainFolder;
     }
@@ -76,8 +76,15 @@ public class User {
     public Folder getPath(String path, boolean isAbs){
         String[] folders = path.split("/");
         Folder auxCurrFolder;
-        if(isAbs)
+        
+        
+        if(isAbs){
             auxCurrFolder = mainFolder;
+            String[] foldersWithoutFirstValue = new String[folders.length - 1];
+            System.arraycopy(folders, 1, foldersWithoutFirstValue, 0, foldersWithoutFirstValue.length);
+            folders = foldersWithoutFirstValue;
+            System.out.println("Folder without first"+ folders);
+        }
         else 
             auxCurrFolder= currentFolder;
         boolean found = false;

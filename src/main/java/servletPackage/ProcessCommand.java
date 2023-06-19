@@ -37,19 +37,21 @@ public class ProcessCommand extends HttpServlet {
      */
     MainFileSystem fs = null;
     JsonAdapter fileManager = null;
-    protected void startServer(){
+
+    protected void startServer() {
         fs = new MainFileSystem();
         fileManager = new JsonAdapter();
-    
+
         //testing
-        Folder folder = new Folder("user", "c:", "24/01/2002", "Girome", "");
-        User u = new User("Girome", 9999,folder);
-        fs.users.add(u);
+        //Folder folder = new Folder("user", "c:", "24/01/2002", "Girome", "");
+        //User u = new User("Girome", 9999,folder);
+        //fs.users.add(u);
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        if (fs == null){
+        if (fs == null) {
             startServer();
             fs = fileManager.loadJsonFileSystem();
         }
@@ -71,19 +73,19 @@ public class ProcessCommand extends HttpServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             RequestData requestData;
             requestData = objectMapper.readValue(requestBody.toString(), RequestData.class);
-            
 
             // Access the parsed JSON data
             String username = requestData.getUser();
             int memory = requestData.getMemory();
-            
+
             String command = requestData.getCommand();
-            User u = fs.getUser(username,memory); //Cambiar 1000 por el paramatro del size
+            User u = fs.getUser(username, memory); //Cambiar 1000 por el paramatro del size
 //            
 //            /* TODO output your page here. You may use following sample code. */
 //            
-            out.println(requestData.getUser() + " requested command: " + requestData.getCommand() + " with params: " + ((requestData.getParameters().size() > 0) ? requestData.getParameters().get(0) : "none"));
-            
+            out.println(u.currentFolder.getDirectory() + "->" + requestData.getCommand() + " " + requestData.getParameters());
+            //out.println(requestData.getUser() + " requested command: " + requestData.getCommand() + " with params: " + ((requestData.getParameters().size() > 0) ? requestData.getParameters().get(0) : "none"));
+
             FileAdministrator administrator = new FileAdministrator();
             Folder currFolder = u.currentFolder;
             String result;
@@ -93,7 +95,9 @@ public class ProcessCommand extends HttpServlet {
                 case "cd":
                     // Handle "cd" command
                     data = requestData.getParameters();
-                    out.println(administrator.changeDirectory(u,data.get(0)));
+                    out.println(administrator.changeDirectory(u, data.get(0)));
+                    out.println(u.getPath(data.get(0), true).getDirectory());
+                    out.println(u.getCurrentFolder().getDirectory());
                     break;
                 case "cda":
                     // Handle "cd" command
@@ -105,26 +109,60 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "help":
                     // Handle "help" command
+                    out.println( "Comandos disponibles: \n"
+                            + "cd: Cambiar de directorio.\n"
+                            + "      Uso: cd <path>\n"
+                            + "cda: Cambiar de directorio desde el absoluto(raíz).\n"
+                            + "      Uso: cda <path>\n"
+                            + "help: Mostrar ayuda.\n"
+                            + "     Uso: help\n"
+                            + "ls: Listar directorios y archivos en el directorio actual.\n"
+                            + "     Uso: ls\n"
+                            + "mkDir: Crear un folder.\n"
+                            + "     Uso: mkDir <nombreFolder>\n"
+                            + "mkFile: Crear un archivo.\n"
+                            + "    Uso: mkFile <nombreArchivo> <extensión> <contenido>\n"
+                            + "updFile: Actualizar el contenido de un archivo.\n"
+                            + "    Uso: updFile <nombreArchivo> <nuevoContenido>\n"
+                            + "mvA: Mover un archivo.\n"
+                            + "   Uso: mvA <nombreArchivo> <rutaDestino>\n"
+                            + "mvF: Mover un directorio.\n"
+                            + "   Uso: mvF <rutaOrigen> <rutaDestino>\n"
+                            + "prop: Ver propiedades de un archivo.\n"
+                            + "   Uso: prop <nombreArchivo>\n"
+                            + "seeFile: Ver contenido de un archivo.\n"
+                            + "   Uso: seeFile <nombreArchivo>\n"
+                            + "rmFile: Eliminar un archivo.\n"
+                            + "    Uso: rmFile <nombreArchivo>\n"
+                            + "rmDir: Eliminar un directorio.\n"
+                            + "    Uso: rmDir <nombreDirectorio>\n"
+                            + "vr: Descargar un archivo.\n"
+                            + "    Uso: vr <nombreArchivo>\n"
+                            + "vvA: Copiar un archivo a una ruta específica.\n"
+                            + "    Uso: vvA <nombreArchivo> <rutaDestino>\n"
+                            + "vvF: Copiar un directorio a una ruta específica.\n"
+                            + "   Uso: vvF <rutaOrigen> <rutaDestino>\n"
+                    );
                     break;
                 case "log":
                     // Handle "log" command
                     break;
                 case "ls":
                     // Handle "ls" command
-                    
+
                     // ls
                     String list = administrator.listarDirectorios(currFolder);
                     out.println(list);
                     break;
                 case "mkDir":
                     // Handle "mkDir" command
-                    
+
                     // mkDir nombreFolder
                     data = requestData.getParameters();
-                    result = administrator.createFolder(currFolder, data.get(0), 
-                            currFolder.getDirectory()+data.get(0)+"/", 
-                            administrator.getCurrentDate(), u.getName(), 
-                            currFolder.getDirectory()+data.get(0)+"/");
+                    result = administrator.createFolder(currFolder, data.get(0),
+                            currFolder.getDirectory() + data.get(0) + "/",
+                            administrator.getCurrentDate(), u.getName(),
+                            currFolder.getDirectory() + data.get(0) + "/");
                     out.println(result);
                     break;
                 case "mkFile":
@@ -132,9 +170,9 @@ public class ProcessCommand extends HttpServlet {
                     data = requestData.getParameters();
                     String content = "";
                     for (int i = 2; i < data.size(); i++) {
-                        content += data.get(i) + (i == data.size() - 1 ? "" : " "); 
+                        content += data.get(i) + (i == data.size() - 1 ? "" : " ");
                     }
-                    String logicalLocation = currFolder.getDirectory()+data.get(0)+"."+data.get(1)+"/";
+                    String logicalLocation = currFolder.getDirectory() + data.get(0) + "." + data.get(1) + "/";
                     // call calculate size calculateSize(int added, int removed)
                     result = administrator.createFile(currFolder, data.get(0), data.get(1), content, logicalLocation);
                     out.println(result);
@@ -144,7 +182,7 @@ public class ProcessCommand extends HttpServlet {
                     data = requestData.getParameters();
                     String newContent = "";
                     for (int i = 1; i < data.size(); i++) {
-                        newContent += data.get(i) + (i == data.size() - 1 ? "" : " "); 
+                        newContent += data.get(i) + (i == data.size() - 1 ? "" : " ");
                     }
                     result = administrator.updateFile(currFolder, data.get(0), newContent);
                     out.println(result);
@@ -154,17 +192,17 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "mvA":
                     // Handle "mv" command
-                    
+
                     // mvA nombreArchive path(user:folder/folder/archive)
                     data = requestData.getParameters();
                     folderDestiny = u.getPath(data.get(1), true);
                     result = administrator.moveArchive(data.get(0), folderDestiny, currFolder);
                     out.println(result);
                     break;
-                    
+
                 case "mvF":
                     // Handle "mv" command
-                    
+
                     // mvF path(user:folder/folder/archive) path(user:folder/folder/archive)
                     data = requestData.getParameters();
                     Folder folderMove = u.getPath(data.get(0), true);
@@ -208,7 +246,7 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "vr":
                     // Handle "vr" command
-                    
+
                     // vr fileName
                     data = requestData.getParameters();
                     result = administrator.vrArchive(data.get(0), u.currentFolder);
@@ -216,17 +254,17 @@ public class ProcessCommand extends HttpServlet {
                     break;
                 case "vvA":
                     // Handle "vv" command
-                    
+
                     // vvA nombreArchivo path(user:folder/folder/archive)
                     data = requestData.getParameters();
                     folderDestiny = u.getPath(data.get(1), true);
                     result = administrator.copiarVVArchive(folderDestiny, data.get(0), currFolder);
                     out.println(result);
                     break;
-                    
+
                 case "vvF":
                     // Handle "vv" command
-                    
+
                     // vvF path(user:folder/folder/archive) path(user:folder/folder/archive)
                     data = requestData.getParameters();
                     folderDestiny = u.getPath(data.get(0), true);
@@ -234,7 +272,7 @@ public class ProcessCommand extends HttpServlet {
                     result = administrator.copiarVVFolder(folderCopy, folderCopy);
                     out.println(result);
                     break;
-                
+
                 default:
                     // Handle unknown command
                     break;
